@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,7 +25,7 @@ public class App extends Application {
         b.setOnAction((e) -> {
             s.setValue(String.format("Clicks : %d", clicks.incrementAndGet()));
         });
-        Scene scene = new Scene(new StackPane(b, l), 320, 240);
+        Scene scene = new Scene(new VBox(b, l), 320, 240);
         stage.setScene(scene);
         stage.show();
     }
