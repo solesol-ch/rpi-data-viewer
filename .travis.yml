@@ -1,12 +1,11 @@
-image:
-  name: yannishuber/embeddedjfx8:latest
-stages:
-- build
-- deploy
-build:
-  stage: build
-  script:
-  - gradle embeddedJar
+sudo: required
+language: generic
+services: docker
+
+script:
+- docker pull yannishuber/embeddedjfx8:latest
+- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/tmp,type=bind yannishuber/embeddedjfx8:latest gradle embeddedJar /tmp
+
 deploy:
   provider: releases
   api_key:
