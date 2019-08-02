@@ -4,7 +4,7 @@ services: docker
 
 script:
 - docker pull yannishuber/embeddedjfx8:latest
-- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/tmp,type=bind yannishuber/embeddedjfx8:latest -c 'cd /tmp; gradle embeddedJar'
+- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/opt/jfx,type=bind yannishuber/embeddedjfx8:latest gradle embeddedJar
 
 deploy:
   provider: releases
