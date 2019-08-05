@@ -16,6 +16,16 @@ repositories {
     jcenter()
 }
 
+dependencies {
+    testCompile 'junit:junit:4.12'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    compile 'org.glassfish.jersey.core:jersey-client:2.26'
+    compile 'org.glassfish.jersey.inject:jersey-hk2:2.26'
+    compile 'org.glassfish.jersey.media:jersey-media-json-processing:2.26'
+    compile 'org.glassfish.jersey.media:jersey-media-json-binding:2.26'
+    compile 'com.sun.activation:javax.activation:1.2.0'
+}
+
 jfxmobile {
     ios {
         forceLinkClasses = ['ensemble.**.*']

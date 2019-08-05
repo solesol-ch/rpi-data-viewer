@@ -3,21 +3,18 @@
  */
 package ch.solesol.pidataviewer;
 
+import ch.solesol.pidataviewer.api.objects.DataModel;
+import ch.solesol.pidataviewer.api.objects.solaredge.SolaredgeModel;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Label l = new Label();
+
+        /*Label l = new Label();
         SimpleStringProperty s = new SimpleStringProperty("Clicks: 0");
         l.textProperty().bind(s);
         Button b = new Button("Touch me");
@@ -27,7 +24,10 @@ public class App extends Application {
         });
         Scene scene = new Scene(new VBox(b, l), 320, 240);
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
+
+        DataModel dm = new SolaredgeModel();
+        System.out.println("DONE");
     }
 
     public static void main(String[] args) {
