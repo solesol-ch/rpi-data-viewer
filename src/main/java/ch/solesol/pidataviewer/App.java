@@ -6,7 +6,17 @@ package ch.solesol.pidataviewer;
 import ch.solesol.pidataviewer.api.objects.DataModel;
 import ch.solesol.pidataviewer.api.objects.solaredge.SolaredgeModel;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class App extends Application {
@@ -14,20 +24,20 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        /*Label l = new Label();
-        SimpleStringProperty s = new SimpleStringProperty("Clicks: 0");
-        l.textProperty().bind(s);
-        Button b = new Button("Touch me");
-        AtomicInteger clicks = new AtomicInteger();
-        b.setOnAction((e) -> {
-            s.setValue(String.format("Clicks : %d", clicks.incrementAndGet()));
-        });
-        Scene scene = new Scene(new VBox(b, l), 320, 240);
-        stage.setScene(scene);
-        stage.show();*/
 
-        DataModel dm = new SolaredgeModel();
-        System.out.println("DONE");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Dashboard.fxml"));
+        GridPane root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DashboardController controller = loader.getController();
+
+
+        Scene scene = new Scene(root, 320, 240);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {

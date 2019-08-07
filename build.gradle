@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.code.gson:gson:2.8.5'
     compile 'org.glassfish.jersey.core:jersey-client:2.26'
     compile 'org.glassfish.jersey.inject:jersey-hk2:2.26'
     compile 'org.glassfish.jersey.media:jersey-media-json-processing:2.26'
@@ -32,5 +32,17 @@ jfxmobile {
     }
     android {
         applicationPackage = 'org.javafxports.ensemble'
+    }
+    embedded {
+        remotePlatforms {
+            raspberry {
+                host = '192.168.1.21'
+                username = 'pi'
+                password = 'raspberry'
+                workingDir = '/home/pi/sample'
+                jreLocation = '/usr/lib/jvm/java-8-openjdk-armhf/'
+                execPrefix = 'sudo'
+            }
+        }
     }
 }

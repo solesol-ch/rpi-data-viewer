@@ -4,5 +4,4 @@ public interface EnergyTimeFrame {
     float getDailyProduction();
     float getWeeklyProduction();
     float getYearlyProduction();
-
 }

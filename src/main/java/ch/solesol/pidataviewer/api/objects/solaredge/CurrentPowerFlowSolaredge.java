@@ -1,27 +1,28 @@
 package ch.solesol.pidataviewer.api.objects.solaredge;
 
 import ch.solesol.pidataviewer.api.objects.CurrentPowerFlow;
+import ch.solesol.pidataviewer.api.objects.EnergyMeasure;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class CurrentPowerFlowSolaredge implements CurrentPowerFlow {
 
-    private SiteCurrentPowerFlow siteCurrentPowerFlow;
+    private CurrentPowerFlowElement siteCurrentPowerFlow;
 
     @Override
-    public float getCurrentProduction() {
-        return siteCurrentPowerFlow.pv.currentPower;
+    public EnergyMeasure getCurrentProduction() {
+        return new EnergyMeasure(siteCurrentPowerFlow.pv.currentPower, siteCurrentPowerFlow.unit);
     }
 
     @Override
-    public float getCurrentUsage() {
-        return siteCurrentPowerFlow.load.currentPower;
+    public EnergyMeasure getCurrentUsage() {
+        return new EnergyMeasure(siteCurrentPowerFlow.load.currentPower, siteCurrentPowerFlow.unit);
     }
 
     @Override
-    public float getCurrentFeedInOut() {
-        return siteCurrentPowerFlow.grid.currentPower;
+    public EnergyMeasure getCurrentFeedInOut() {
+        return new EnergyMeasure(siteCurrentPowerFlow.grid.currentPower, siteCurrentPowerFlow.unit);
     }
 
     /**
@@ -47,7 +48,7 @@ public class CurrentPowerFlowSolaredge implements CurrentPowerFlow {
         private String to;
     }
 
-    private static class SiteCurrentPowerFlow {
+    private static class CurrentPowerFlowElement {
         private String unit;
         private List<Connection> connections;
 

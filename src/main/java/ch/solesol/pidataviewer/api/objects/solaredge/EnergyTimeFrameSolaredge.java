@@ -1,26 +1,38 @@
 package ch.solesol.pidataviewer.api.objects.solaredge;
 
+import ch.solesol.pidataviewer.api.objects.EnergyMeasure;
 import ch.solesol.pidataviewer.api.objects.EnergyTimeFrame;
-import com.google.gson.annotations.SerializedName;
 
 public class EnergyTimeFrameSolaredge implements EnergyTimeFrame {
 
-    @SerializedName("energy")
-    private float value;
-    private String unit;
+    private EnergyMeasure dailyProduction;
+    private EnergyMeasure weeklyProduction;
+    private EnergyMeasure yearlyProduction;
+
+    public void setDailyProduction(EnergyMeasure dailyProduction) {
+        this.dailyProduction = dailyProduction;
+    }
+
+    public void setWeeklyProduction(EnergyMeasure weeklyProduction) {
+        this.weeklyProduction = weeklyProduction;
+    }
+
+    public void setYearlyProduction(EnergyMeasure yearlyProduction) {
+        this.yearlyProduction = yearlyProduction;
+    }
 
     @Override
     public float getDailyProduction() {
-        return 0;
+        return this.dailyProduction.value;
     }
 
     @Override
     public float getWeeklyProduction() {
-        return 0;
+        return this.weeklyProduction.value;
     }
 
     @Override
     public float getYearlyProduction() {
-        return 0;
+        return this.yearlyProduction.value;
     }
 }

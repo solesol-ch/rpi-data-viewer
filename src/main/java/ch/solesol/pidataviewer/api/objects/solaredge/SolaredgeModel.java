@@ -3,6 +3,9 @@ package ch.solesol.pidataviewer.api.objects.solaredge;
 import ch.solesol.pidataviewer.Configuration;
 import ch.solesol.pidataviewer.api.APIClient;
 import ch.solesol.pidataviewer.api.objects.DataModel;
+import ch.solesol.pidataviewer.api.objects.EnergyMeasure;
+
+import java.util.List;
 
 public class SolaredgeModel implements DataModel {
 
@@ -13,25 +16,23 @@ public class SolaredgeModel implements DataModel {
 
 
     public SolaredgeModel() {
-        // TODO : Use informations from config file
         Configuration config = Configuration.fromConfigFile();
         this.client = new APIClient("https://monitoringapi.solaredge.com/", config.siteId, config.apiKey, APIClient.InverterType.SOLAREDGE);
-        this.powerFlow = (CurrentPowerFlowSolaredge) client.getCurrentPowerFlow();
+        this.refreshData();
     }
 
-
     @Override
-    public float getCurrentProduction() {
+    public EnergyMeasure getCurrentProduction() {
         return powerFlow.getCurrentProduction();
     }
 
     @Override
-    public float getCurrentUsage() {
+    public EnergyMeasure getCurrentUsage() {
         return powerFlow.getCurrentUsage();
     }
 
     @Override
-    public float getCurrentFeedInOut() {
+    public EnergyMeasure getCurrentFeedInOut() {
         return powerFlow.getCurrentFeedInOut();
     }
 
@@ -58,5 +59,17 @@ public class SolaredgeModel implements DataModel {
     @Override
     public float getYearlyProduction() {
         return timeFrame.getYearlyProduction();
+    }
+
+    @Override
+    public List<EnergyMeasure> getProductionMeasures() {
+        return details.getProductionMeasures();
+    }
+
+    @Override
+    public void refreshData() {
+        this.powerFlow = (CurrentPowerFlowSolaredge) client.getCurrentPowerFlow();
+        this.details = (EnergyDetailsSolaredge) client.getEnergyDetails();
+        this.timeFrame = (EnergyTimeFrameSolaredge) client.getEnergyTimeFrame();
     }
 }
