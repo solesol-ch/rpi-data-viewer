@@ -1,16 +1,12 @@
 package ch.solesol.pidataviewer;
 
-import ch.solesol.pidataviewer.api.objects.DataModel;
-import ch.solesol.pidataviewer.api.objects.solaredge.SolaredgeModel;
-import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class DashboardController {
 
-    private DataModel model;
-
-    private ObservableStringValue currentProductionProperty;
+public class DashboardController extends ScreenController {
 
     @FXML
     private Label lblCurrentProduction;
@@ -21,23 +17,26 @@ public class DashboardController {
     @FXML
     private Label lblCurrentGrid;
 
-    public DashboardController() {
-        /*Configuration config = Configuration.fromConfigFile();
-        if(config.inverter.equalsIgnoreCase("solaredge"))
-            this.model = new SolaredgeModel();
-        else
-            this.model = null; // TODO : Add support for fronius models*/
-        this.model = new SolaredgeModel();
-    }
+    @FXML
+    private ImageView imgSolarProduction;
 
     @FXML
-    private void initialize() {
+    private ImageView imgGridFlow;
+
+    public DashboardController() { }
+
+    @FXML
+    private void initialize() { }
+
+    @Override
+    public void refreshData() {
         this.lblCurrentProduction.setText(String.format("%.2f %s", this.model.getCurrentProduction().value, this.model.getCurrentProduction().unit));
         this.lblCurrentUsage.setText(String.format("%.2f %s", this.model.getCurrentUsage().value, this.model.getCurrentUsage().unit));
         this.lblCurrentGrid.setText(String.format("%.2f %s", this.model.getCurrentFeedInOut().value, this.model.getCurrentFeedInOut().unit));
+        if(this.model.currentlyProducing()) this.imgSolarProduction.setImage(new Image(getClass().getResource("/images/right-arrow.png").toString()));
+        if(this.model.currentlyConsuming()) this.imgGridFlow.setImage(new Image(getClass().getResource("/images/left-arrow.png").toString()));
+        if(this.model.currentlySelling()) this.imgGridFlow.setImage(new Image(getClass().getResource("/images/right-arrow.png").toString()));
     }
-
-
 }
 
 

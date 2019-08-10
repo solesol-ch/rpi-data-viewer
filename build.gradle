@@ -36,7 +36,7 @@ jfxmobile {
     embedded {
         remotePlatforms {
             raspberry {
-                host = '192.168.1.21'
+                host = '192.168.1.57'
                 username = 'pi'
                 password = 'raspberry'
                 workingDir = '/home/pi/sample'

@@ -11,6 +11,7 @@ public class EnergyMeasure {
     public String unit;
     @SerializedName(value="value", alternate={"energy"})
     public float value;
+    public float revenue;
 
     public EnergyMeasure(float value, String unit){
         this.value = value;

@@ -43,6 +43,11 @@ public class CurrentPowerFlowSolaredge implements CurrentPowerFlow {
         return siteCurrentPowerFlow.connections.stream().anyMatch(c -> c.from.equalsIgnoreCase("GRID"));
     }
 
+    @Override
+    public boolean currentlySelling() {
+        return siteCurrentPowerFlow.connections.stream().anyMatch(c -> c.from.equalsIgnoreCase("LOAD"));
+    }
+
     private static class Connection {
         private String from;
         private String to;

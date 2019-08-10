@@ -3,10 +3,10 @@ package ch.solesol.pidataviewer.api;
 import ch.solesol.pidataviewer.api.objects.CurrentPowerFlow;
 import ch.solesol.pidataviewer.api.objects.EnergyDetails;
 import ch.solesol.pidataviewer.api.objects.EnergyMeasure;
-import ch.solesol.pidataviewer.api.objects.EnergyTimeFrame;
+import ch.solesol.pidataviewer.api.objects.EnergyOverview;
 import ch.solesol.pidataviewer.api.objects.solaredge.CurrentPowerFlowSolaredge;
 import ch.solesol.pidataviewer.api.objects.solaredge.EnergyDetailsSolaredge;
-import ch.solesol.pidataviewer.api.objects.solaredge.EnergyTimeFrameSolaredge;
+import ch.solesol.pidataviewer.api.objects.solaredge.EnergyOverviewSolaredge;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -86,45 +86,16 @@ public class APIClient {
         return gson.fromJson(res, EnergyDetailsSolaredge.class);
     }
 
-    public EnergyTimeFrame getEnergyTimeFrame() {
+    public EnergyOverview getEnergyOverview() {
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime now = LocalDateTime.now();
-
-        EnergyTimeFrameSolaredge etf = new EnergyTimeFrameSolaredge();
-        String dailyProduction = client
+        String res = client
                 .target(this.url)
-                .path(String.format("site/%d/timeFrameEnergy", siteId))
+                .path(String.format("site/%d/overview", siteId))
                 .queryParam("api_key", this.apiKey)
-                .queryParam("timeUnit", "MONTH")
-                .queryParam("startDate", dtf.format(now))
-                .queryParam("endDate", dtf.format(now.plusDays(1)))
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
 
-        String weeklyProduction = client
-                .target(this.url)
-                .path(String.format("site/%d/timeFrameEnergy", siteId))
-                .queryParam("api_key", this.apiKey)
-                .queryParam("timeUnit", "MONTH")
-                .queryParam("startDate", dtf.format(now.minusWeeks(1)))
-                .queryParam("endDate", dtf.format(now.plusDays(1)))
-                .request(MediaType.APPLICATION_JSON)
-                .get(String.class);
-
-        String yearlyProduction = client
-                .target(this.url)
-                .path(String.format("site/%d/timeFrameEnergy", siteId))
-                .queryParam("api_key", this.apiKey)
-                .queryParam("timeUnit", "MONTH")
-                .queryParam("startDate", dtf.format(now.minusDays(364)))
-                .queryParam("endDate", dtf.format(now.plusDays(1)))
-                .request(MediaType.APPLICATION_JSON)
-                .get(String.class);
-        etf.setDailyProduction(gson.fromJson(dailyProduction, EnergyMeasure.class));
-        etf.setDailyProduction(gson.fromJson(weeklyProduction, EnergyMeasure.class));
-        etf.setDailyProduction(gson.fromJson(yearlyProduction, EnergyMeasure.class));
-        return etf;
+        return gson.fromJson(res, EnergyOverviewSolaredge.class);
     }
 
 

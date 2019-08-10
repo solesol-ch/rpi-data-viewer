@@ -6,36 +6,59 @@ package ch.solesol.pidataviewer;
 import ch.solesol.pidataviewer.api.objects.DataModel;
 import ch.solesol.pidataviewer.api.objects.solaredge.SolaredgeModel;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.HashMap;
 
 
 public class App extends Application {
+
+    private final String[] screens = {"Dashboard", "Chart"};
+
+    private int currentScreen = 0;
+    private HashMap<String, FXMLLoader> screensMap = new HashMap<>();
+    private DataModel model;
 
     @Override
     public void start(Stage stage) {
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Dashboard.fxml"));
-        GridPane root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for(String s : screens){
+            screensMap.put(String.format("%s", s), new FXMLLoader(getClass().getResource(String.format("/fxml/%s.fxml", s))));
         }
-        DashboardController controller = loader.getController();
+
+        Scene scene = new Scene(new BorderPane(), 320, 240);
+        ScreenManager screenManager = new ScreenManager(scene);
+
+        // TODO : Create model according to the config
+        this.model = new SolaredgeModel();
+
+        screensMap.forEach((s, l) -> {
+            try {
+                screenManager.addScreen(s, l.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ScreenController c = l.getController();
+            c.setDataModel(model);
+            new Thread(() -> {
+                c.refreshData();
+            }).start();
+            c.switchScreenAction = touchEvent -> {
+                screenManager.activate(screens[++currentScreen % screens.length]);
+                return true;
+            };
 
 
-        Scene scene = new Scene(root, 320, 240);
+        });
+
+        screenManager.activate(screens[currentScreen]);
+
         stage.setScene(scene);
         stage.show();
     }

@@ -17,8 +17,8 @@ public class Configuration {
     public String apiKey;
     public int siteId;
 
-    private static final String CONFIG_FILE = "/home/yannis/Documents/PRIVATE/code/solesol/rpi-data-viewer/config.json";
-    //private static final String CONFIG_FILE = "/home/pi/config.json";
+    //private static final String CONFIG_FILE = "/home/yannis/Documents/PRIVATE/code/solesol/rpi-data-viewer/config.json";
+    private static final String CONFIG_FILE = "/home/pi/config.json";
 
     private Configuration() {}
 

@@ -12,13 +12,13 @@ public class SolaredgeModel implements DataModel {
     private APIClient client;
     private EnergyDetailsSolaredge details;
     private CurrentPowerFlowSolaredge powerFlow;
-    private EnergyTimeFrameSolaredge timeFrame;
+    private EnergyOverviewSolaredge timeFrame;
 
 
     public SolaredgeModel() {
         Configuration config = Configuration.fromConfigFile();
         this.client = new APIClient("https://monitoringapi.solaredge.com/", config.siteId, config.apiKey, APIClient.InverterType.SOLAREDGE);
-        this.refreshData();
+        this.refreshAll();
     }
 
     @Override
@@ -47,17 +47,22 @@ public class SolaredgeModel implements DataModel {
     }
 
     @Override
-    public float getDailyProduction() {
+    public boolean currentlySelling() {
+        return powerFlow.currentlySelling();
+    }
+
+    @Override
+    public EnergyMeasure getDailyProduction() {
         return timeFrame.getDailyProduction();
     }
 
     @Override
-    public float getWeeklyProduction() {
-        return timeFrame.getWeeklyProduction();
+    public EnergyMeasure getMonthlyProduction() {
+        return timeFrame.getMonthlyProduction();
     }
 
     @Override
-    public float getYearlyProduction() {
+    public EnergyMeasure getYearlyProduction() {
         return timeFrame.getYearlyProduction();
     }
 
@@ -67,9 +72,14 @@ public class SolaredgeModel implements DataModel {
     }
 
     @Override
-    public void refreshData() {
-        this.powerFlow = (CurrentPowerFlowSolaredge) client.getCurrentPowerFlow();
+    public void refreshAll() {
+        this.refreshCurrentPowerFlow();
         this.details = (EnergyDetailsSolaredge) client.getEnergyDetails();
-        this.timeFrame = (EnergyTimeFrameSolaredge) client.getEnergyTimeFrame();
+        this.timeFrame = (EnergyOverviewSolaredge) client.getEnergyOverview();
+    }
+
+    @Override
+    public void refreshCurrentPowerFlow() {
+        this.powerFlow = (CurrentPowerFlowSolaredge) client.getCurrentPowerFlow();
     }
 }

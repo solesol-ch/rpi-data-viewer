@@ -6,4 +6,5 @@ public interface CurrentPowerFlow {
     EnergyMeasure getCurrentFeedInOut();
     boolean currentlyProducing();
     boolean currentlyConsuming();
+    boolean currentlySelling();
 }

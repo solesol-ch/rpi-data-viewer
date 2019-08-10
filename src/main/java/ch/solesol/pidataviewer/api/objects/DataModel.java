@@ -1,6 +1,7 @@
 package ch.solesol.pidataviewer.api.objects;
 
-public interface DataModel extends EnergyDetails, EnergyTimeFrame, CurrentPowerFlow {
+public interface DataModel extends EnergyDetails, EnergyOverview, CurrentPowerFlow {
 
-    void refreshData();
+    void refreshAll();
+    void refreshCurrentPowerFlow();
 }
